@@ -1,3 +1,5 @@
+const { generatePassword } = require("../../../../wagersBackend/helper/bcrypt");
+const { profileLastActivity, otpTypes } = require("../../../constants/enum");
 const { statusCode } = require("../../../constants/statusCode");
 const { UserModel } = require("../../../databaseModels");
 
@@ -30,14 +32,27 @@ module.exports = {
         
       }
 
-      const user=new UserModel({
+      const hashedPassword = generatePassword(password)
+      const otp=generateOtp(4,true)
+
+
+      const user=await UserModel.create({
         firstName,
         lastName,
         email,
-        password
+        password:hashedPassword,
+        lastActivity:profileLastActivity.SIGNUP
       })
 
-      await user.save()
+      const createdUser=user[0]
+
+      const userToken=await UserTokenModel.create({
+        userId:createdUser._id,
+        token:otp,
+        type:otpTypes.SignUp
+      })
+
+
 
       return res
         .status(statusCode.CREATED)
