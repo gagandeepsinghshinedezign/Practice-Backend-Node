@@ -3,6 +3,8 @@
 /**
  * Module dependencies.
  */
+require('dotenv').config();
+const config = require('../config');
 
 var app = require('../app');
 var debug = require('debug')('build-quest-backend:server');
@@ -12,7 +14,9 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+console.log("Starting server...",config.PORT);
+
+var port = normalizePort(config.PORT);
 app.set('port', port);
 
 /**

@@ -1,9 +1,11 @@
 node_modules
-config.js
+config
 settings.json
 connection.js
 swagger_output.json
 reset.http
 uploads
+.env
+connection
 # socket.js
 # chat
